@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cryptography Application</title>
+    <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Cryptography Application</h2>
+
+    <!-- Input for text -->
+    <div class="form-group">
+        <label for="inputText">Enter Text:</label>
+        <textarea id="inputText" class="form-control" rows="4" placeholder="Enter text to encrypt or decrypt..."></textarea>
+        <span id="textError" class="error-message"></span>
+    </div>
+
+    <!-- Select encryption method -->
+    <div class="form-group">
+        <label for="encryptionMethod">Select Encryption Method:</label>
+        <select id="encryptionMethod" class="form-control">
+            <option value="AES">AES (Advanced Encryption Standard)</option>
+            <option value="RSA">RSA (Rivest-Shamir-Adleman)</option>
+            <option value="DES">DES (Data Encryption Standard)</option>
+        </select>
+    </div>
+
+    <!-- Input for key -->
+    <div id="keyContainer" class="form-group">
+        <label for="encryptionKey">Enter Key:</label>
+        <div class="key-input-group">
+            <input type="text" id="encryptionKey" class="form-control" placeholder="Enter encryption key...">
+            <button id="generateKeyButton" class="btn btn-secondary">Generate Key</button>
+        </div>
+        <span id="keyError" class="error-message"></span>
+    </div>
+
+    <!-- Buttons to encrypt and decrypt -->
+    <button id="encryptButton" class="btn btn-success">Encrypt</button>
+    <button id="decryptButton" class="btn btn-primary">Decrypt</button>
+
+    <!-- Output for encrypted/decrypted data -->
+    <div class="form-group">
+        <label for="outputText">Output:</label>
+        <textarea id="outputText" class="form-control output" rows="4" readonly></textarea>
+    </div>
+</div>
+
+<!-- Link to your JavaScript file -->
+<script src="js/script.js"></script>
+</body>
+</html>

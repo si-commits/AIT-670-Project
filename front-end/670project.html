@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptography Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        input, textarea, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .output {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Cryptography Application</h2>
+
+    <!-- Input for text -->
+    <label for="inputText">Enter Text:</label>
+    <textarea id="inputText" rows="4" placeholder="Enter text to encrypt or decrypt..."></textarea>
+
+    <!-- Select encryption method -->
+    <label for="encryptionMethod">Select Encryption Method:</label>
+    <select id="encryptionMethod">
+        <option value="AES">AES (Advanced Encryption Standard)</option>
+        <option value="RSA">RSA (Rivest-Shamir-Adleman)</option>
+        <option value="DES">DES (Data Encryption Standard)</option>
+    </select>
+
+    <!-- Input for key (for AES and DES) -->
+    <label for="encryptionKey">Enter Key (Optional for RSA):</label>
+    <input type="text" id="encryptionKey" placeholder="Enter encryption key...">
+
+    <!-- Buttons to encrypt and decrypt -->
+    <button onclick="encryptData()">Encrypt</button>
+    <button onclick="decryptData()">Decrypt</button>
+
+    <!-- Output for encrypted/decrypted data -->
+    <label for="outputText">Output:</label>
+    <textarea id="outputText" class="output" rows="4" readonly></textarea>
+</div>
+
+<script>
+    async function encryptData() {
+        const text = document.getElementById("inputText").value;
+        const method = document.getElementById("encryptionMethod").value;
+        const key = document.getElementById("encryptionKey").value;
+
+        if (!text) {
+            alert("Please enter text to encrypt.");
+            return;
+        }
+
+        const response = await fetch('/encrypt', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ text, method, key })
+        });
+
+        const result = await response.json();
+        document.getElementById("outputText").value = result.encryptedText;
+    }
+
+    async function decryptData() {
+        const text = document.getElementById("inputText").value;
+        const method = document.getElementById("encryptionMethod").value;
+        const key = document.getElementById("encryptionKey").value;
+
+        if (!text) {
+            alert("Please enter text to decrypt.");
+            return;
+        }
+
+        const response = await fetch('/decrypt', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ text, method, key })
+        });
+
+        const result = await response.json();
+        document.getElementById("outputText").value = result.decryptedText;
+    }
+</script>
+
+</body>
+</html>

@@ -4,92 +4,183 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cryptography Application</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Glacial+Indifference&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Roboto', sans-serif;
+            font-size: 22px;
             margin: 0;
-            padding: 20px;
+            padding-top: 50px;
+            padding-left: 20px;
+            background-color: #121212;
+            color: #ffffff;
+            background-image: url('https://www.ideatebox.com/wp-content/uploads/2020/05/encryp-decryp-scaled.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            position: relative;
         }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
         }
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
+        .about-link {
+            font-size: 22px;
+            color: white;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-bottom: 10px;
+            display: inline-block;
         }
-        label {
-            font-weight: bold;
+        #aboutSection {
+            display: none; /* Hidden by default */
             margin-top: 10px;
+            max-width: 800px;
+            font-size: 18px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
         }
-        input, textarea, select, button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
+        .step-container {
+            text-align: center;
+            color: white;
             margin-bottom: 20px;
-            border: 1px solid #ccc;
+            font-size: 26px;
+        }
+        .step-container h2 {
+            font-family: 'Glacial Indifference', sans-serif;
+            font-style: italic;
+        }
+        .navbar input, .navbar select {
+            padding: 5px;
+            background-color: #333;
+            border: 1px solid #555;
+            color: white;
             border-radius: 4px;
-            font-size: 16px;
+            display: none; /* Hidden by default for step-by-step process */
+            margin: 0 10px;
         }
         button {
             background-color: #28a745;
             color: white;
             cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 4px;
+            border: none;
+            margin: 10px;
+            font-size: 20px;
         }
         button:hover {
             background-color: #218838;
         }
+        .container {
+            max-width: 700px;
+            margin: 30px auto;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+            display: none; /* Hidden by default */
+        }
         .output {
-            background-color: #f0f0f0;
-            padding: 10px;
+            background-color: #333;
+            padding: 15px;
             border-radius: 4px;
-            font-size: 16px;
+            color: #ffffff;
+            font-size: 20px;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Cryptography Application</h2>
-
-    <!-- Input for text -->
-    <label for="inputText">Enter Text:</label>
-    <textarea id="inputText" rows="4" placeholder="Enter text to encrypt or decrypt..."></textarea>
-
-    <!-- Select encryption method -->
-    <label for="encryptionMethod">Select Encryption Method:</label>
-    <select id="encryptionMethod">
-        <option value="AES">AES (Advanced Encryption Standard)</option>
-        <option value="RSA">RSA (Rivest-Shamir-Adleman)</option>
-        <option value="DES">DES (Data Encryption Standard)</option>
-    </select>
-
-    <!-- Input for key (for AES and DES) -->
-    <label for="encryptionKey">Enter Key (Optional for RSA):</label>
-    <input type="text" id="encryptionKey" placeholder="Enter encryption key...">
-
-    <!-- Buttons to encrypt and decrypt -->
-    <button onclick="encryptData()">Encrypt</button>
-    <button onclick="decryptData()">Decrypt</button>
-
-    <!-- Output for encrypted/decrypted data -->
-    <label for="outputText">Output:</label>
-    <textarea id="outputText" class="output" rows="4" readonly></textarea>
+<!-- About Link and Section -->
+<div class="about-link" onclick="toggleAboutSection()">About</div>
+<div id="aboutSection">
+    <p>This Cryptography Application is designed to assist with encrypting and decrypting text using popular cryptographic methods such as AES, RSA, and DES. Follow a guided, step-by-step process to transform and secure your data.</p>
 </div>
 
+<!-- Step Container for Progressive Guidance -->
+<div class="step-container" id="stepContainer">
+    <h2>Hello, welcome to the Cryptographic Application</h2>
+    <p id="stepMessage"><i>Click next to start the process</i></p>
+    <button onclick="nextStep()">Next</button>
+</div>
+
+<!-- Navbar for inputs -->
+<div class="navbar" style="text-align: center;">
+    <input type="text" id="inputText" placeholder="Enter text here..." style="width: 250px;">
+
+    <label for="encryptionMethod" id="encryptionMethodLabel" style="display:none;">Select Method:</label>
+    <select id="encryptionMethod" style="display:none;">
+        <option value="AES">AES</option>
+        <option value="RSA">RSA</option>
+        <option value="DES">DES</option>
+    </select>
+
+    <label for="encryptionKey" id="encryptionKeyLabel" style="display:none;">Enter Key:</label>
+    <input type="password" id="encryptionKey" placeholder="Enter key..." style="display:none;">
+
+    <button id="encryptButton" style="display:none;" onclick="encryptData()">Encrypt</button>
+    <button id="decryptButton" style="display:none;" onclick="decryptData()">Decrypt</button>
+</div>
+
+<!-- Output Container -->
+<div class="container" id="outputContainer">
+    <h2>Encryption Output</h2>
+    <label for="outputText">Output:</label>
+    <textarea id="outputText" class="output" rows="5" readonly></textarea>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
+    function toggleAboutSection() {
+        const aboutSection = document.getElementById("aboutSection");
+        aboutSection.style.display = aboutSection.style.display === "none" ? "block" : "none";
+    }
+
+    let currentStep = 0;
+
+    // Function to handle each step
+    function nextStep() {
+        currentStep++;
+        const stepMessage = document.getElementById("stepMessage");
+
+        if (currentStep === 1) {
+            stepMessage.innerHTML = "Please click Next to select an encryption method.";
+            document.getElementById("inputText").style.display = "inline";
+        } else if (currentStep === 2) {
+            stepMessage.innerHTML = "Step 2: Select an encryption method.";
+            document.getElementById("inputText").disabled = true; // Disable previous input
+            document.getElementById("encryptionMethodLabel").style.display = "inline";
+            document.getElementById("encryptionMethod").style.display = "inline";
+        } else if (currentStep === 3) {
+            stepMessage.innerHTML = "Step 3: Enter a key (optional for RSA).";
+            document.getElementById("encryptionMethod").disabled = true;
+            document.getElementById("encryptionKeyLabel").style.display = "inline";
+            document.getElementById("encryptionKey").style.display = "inline";
+        } else if (currentStep === 4) {
+            stepMessage.innerHTML = "Final Step: Choose Encrypt or Decrypt.";
+            document.getElementById("encryptionKey").disabled = true;
+            document.getElementById("encryptButton").style.display = "inline";
+            document.getElementById("decryptButton").style.display = "inline";
+        } else {
+            stepMessage.innerHTML = "";
+            document.getElementById("stepContainer").style.display = "none";
+        }
+    }
+
     async function encryptData() {
         const text = document.getElementById("inputText").value;
         const method = document.getElementById("encryptionMethod").value;
         const key = document.getElementById("encryptionKey").value;
 
         if (!text) {
-            alert("Please enter text to encrypt.");
+            Swal.fire("Error", "Please enter text to encrypt.", "error");
             return;
         }
 
@@ -103,6 +194,7 @@
 
         const result = await response.json();
         document.getElementById("outputText").value = result.encryptedText;
+        document.getElementById("outputContainer").style.display = "block"; // Show output container
     }
 
     async function decryptData() {
@@ -111,7 +203,7 @@
         const key = document.getElementById("encryptionKey").value;
 
         if (!text) {
-            alert("Please enter text to decrypt.");
+            Swal.fire("Error", "Please enter text to decrypt.", "error");
             return;
         }
 
@@ -125,8 +217,10 @@
 
         const result = await response.json();
         document.getElementById("outputText").value = result.decryptedText;
+        document.getElementById("outputContainer").style.display = "block"; // Show output container
     }
 </script>
 
 </body>
 </html>
+
